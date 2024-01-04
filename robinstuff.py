@@ -9,4 +9,3 @@ login = robin.login(username, password, mfa_code=totp)
 my_stocks = robin.build_holdings()
 for key,value in my_stocks.items():
    print(key,value)
-#I like rice
