@@ -43,7 +43,7 @@ df['dv'] = indicators.dv(df)
 
 lcols = [c for c in df.columns.unique(0) if c not in ['dv', 'volume', 'open', 'high', 'low', 'close']]
 
-data = (pd.concat([df.unstack('ticker')['dv'].resample('M').mean().stack('ticker').to_frame('dv'), 
+data = (pd.concat([df.unstack('ticker')['dv'].resample('M').mean().stack('ticker').to_frame('dv'), #can change resample to D
         df.unstack()[lcols].resample('M').last().stack('ticker')],axis=1)).dropna()
 
 data.sort_index(inplace=True)
@@ -64,21 +64,30 @@ def returns(df):
                                 .pow(1/month)
                                 .sub(1))
     return df
-
 data = data.groupby(level=1, group_keys=False).apply(returns).dropna()
 famaFrench = web.DataReader('F-F_Research_Data_5_Factors_2x3','famafrench',start='2010-01-01')[0].drop('RF', axis=1)
-
 famaFrench.index = famaFrench.index.to_timestamp()
-
 famaFrench = famaFrench.resample('M').last().div(100)
-
 famaFrench.index.name = 'date'
-
 famaFrench = famaFrench.join(data['return_1m']).sort_index()
-
 obs = famaFrench.groupby(level=1).size()
-
 validStocks = obs[obs >= 10]
-
 famaFrench = famaFrench[famaFrench.index.get_level_values('ticker').isin(validStocks.index)]
-print(famaFrench)
+
+#54:50 check 
+betas = (famaFrench.groupby(level=1,
+                            group_keys=False)
+         .apply(lambda x: RollingOLS(endog=x['return_1m'],
+                                     exog=sm.add_constant(x.drop('return_1m', axis=1)),
+                                     window=min(24, x.shape[0]),
+                                     min_nobs=len(x.columns)+1)
+        .fit(params_only=True)
+        .params
+        .drop('const', axis=1)
+                                     ))
+factors = ['Mkt-RF', 'SMB', 'HML', 'RMW', 'CMA']
+data = data.join(betas.groupby('ticker').shift())
+data.loc[:,factors] = data.groupby('ticker', group_keys=False)[factors].apply(lambda x: x.fillna(x.mean()))
+data = data.dropna()
+data = data.drop('adj close',axis=1)
+data.info()

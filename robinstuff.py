@@ -1,6 +1,6 @@
 import robin_stocks.robinhood as robin
 import pyotp
-from chart import get_spy
+from dataframe import get_spy
 logindir = '/Users/nately/Desktop/login.txt'
 lfile = open(logindir).readlines()
 username = lfile[0][:-1]
