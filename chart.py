@@ -15,10 +15,8 @@ def get_spy():
     stats = soup.find('table', class_='table table-hover table-borderless table-sm')
     df = pd.read_html(str(stats))[0]
     
-    # Assuming the tickers are in a column named 'Symbol'. Adjust if the column name is different.
     symbols_list = df['Symbol'].tolist()
     
-    # Replace periods with hyphens for each ticker symbol
     symbols_list_with_hyphens = [symbol.replace('.', '-') for symbol in symbols_list]
     
     return symbols_list_with_hyphens
@@ -35,4 +33,7 @@ df['rsi'] = indicators.rsi(df)
 df['bbl'] = indicators.bbl(df)
 df['bbm'] = indicators.bbm(df)
 df['bbh'] = indicators.bbh(df)
+df['atr'] = df.groupby(level=1, group_keys=False).apply(indicators.atr)
+df['macd'] = df.groupby(level=1, group_keys=False)['adj close'].apply(indicators.macd)
+df['dv'] = indicators.dv(df)
 print(df)
