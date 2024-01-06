@@ -10,7 +10,7 @@ def getClusters(df):
     targetrsi = [30, 45, 55, 70]
     initial_centroids = np.zeros((len(targetrsi),18))
     initial_centroids[:,6] = targetrsi
-    df['cluster'] = KMeans(n_clusters = 4, random_state=0, init=initial_centroids).fit(df).labels_
+    df['cluster'] = KMeans(n_clusters = 4, random_state=0, init=initial_centroids, n_init=10).fit(df).labels_ #n_init on 10 to bypass warnings
     return df
 
 def plot_clusters(data):
