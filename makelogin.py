@@ -17,7 +17,3 @@ os.system(addline(user))
 os.system(addline(password))
 os.system(addline(key))
 print("login file sucessfully created")
-
-
-
-
