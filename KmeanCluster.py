@@ -3,9 +3,13 @@ from dataframe import getdata
 import pandas
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
 
 def getClusters(df):
+    targetrsi = [30, 45, 55, 70]
+    initial_centroids = np.zeros((len(targetrsi),18))
+    initial_centroids[:,6] = targetrsi
     df['cluster'] = KMeans(n_clusters = 4, random_state=0, init=initial_centroids).fit(df).labels_
     return df
 
@@ -24,21 +28,30 @@ def plot_clusters(data):
     )
     plt.show()
     return
-targetrsi = [30, 45, 55, 70]
-initial_centroids = np.zeros((len(targetrsi),18))
-initial_centroids[:,6] = targetrsi
-data = getdata()
-#data = data.drop('cluster', axis = 1)
-data = data.dropna().groupby('date', group_keys=False).apply(getClusters)
+def visualize(data):
+    plt.style.use('ggplot')
+    for x in data.index.get_level_values('date').unique().tolist():
+        g = data.xs(x, level=0)
+        plt.title(f'date {x}')
+        plot_clusters(g)
+        
+def dofilter(data):
+    data = getdata()
+    #data = data.drop('cluster', axis = 1)
+    data = data.dropna().groupby('date', group_keys=False).apply(getClusters)
 
+    #visualize(data)
 
+    #cluster 3 data
+    filtered_df = data[data['cluster']==3].copy()
+    filtered_df = filtered_df.reset_index(level=1)
+    filtered_df.index = filtered_df.index+pd.DateOffset(1)
+    filtered_df = filtered_df.reset_index().set_index(['date', 'ticker']).unstack().stack()
+    return filtered_df
+def getdates(filtered_df):
+    dates = filtered_df.index.get_level_values('date').unique().tolist()
+    fixed_dates = {}
+    for date in dates:
+        fixed_dates[date.strftime('%Y-%m-%d')] = filtered_df.xs(date, level=0).index.tolist()
+    return fixed_dates
 
-
-
-print(data)
-print(initial_centroids)
-plt.style.use('ggplot')
-for x in data.index.get_level_values('date').unique().tolist():
-    g = data.xs(x, level=0)
-    plt.title(f'date {x}')
-    plot_clusters(g)
