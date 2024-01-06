@@ -72,7 +72,5 @@ def getdata():
     data.loc[:,factors] = data.groupby('ticker', group_keys=False)[factors].apply(lambda x: x.fillna(x.mean()))
     data = data.dropna()
     data = data.drop('adj close',axis=1)
-    print(data)
-    data.info()
     return data
 
