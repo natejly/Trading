@@ -1,5 +1,5 @@
 import yfinance as yf
-import datetime
+import datetime as dt
 import pandas as pd
 import indicators
 from statsmodels.regression.rolling import RollingOLS
@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from spy import get_spy
 def getdata():
-    end_date = '2023-09-27' #date used in yt video
+    end_date = dt.date.today()
     start_date = pd.to_datetime(end_date)-pd.DateOffset(365*8)
 
     df = yf.download(tickers=get_spy(),start=start_date,end=end_date).stack()

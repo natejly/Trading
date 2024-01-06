@@ -49,11 +49,12 @@ def getportfolio(data):
                                                         .reset_index().set_index(['Date', 'index']).unstack().stack()
             temp_df.index.names = ['date', 'ticker']
             temp_df['weighted_return'] = temp_df['return']*temp_df['weight']
-            temp_df = temp_df.groupby(level=0)['weighted_return'].sum().to_frame('Strategy Return')
+            temp_df = temp_df.groupby(level=0)['weighted_return'].sum().to_frame('Poverty Simulator TM pending')
             portfolio_df = pd.concat([portfolio_df, temp_df], axis=0)
         except Exception as e:
             print(e)
 
 
     portfolio_df = portfolio_df.drop_duplicates()
+    print(weights)
     return portfolio_df
