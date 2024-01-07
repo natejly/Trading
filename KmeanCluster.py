@@ -36,7 +36,7 @@ def visualize(data):
         plot_clusters(g)
         
 def dofilter(data):
-    data = getdata()
+
     #data = data.drop('cluster', axis = 1)
     data = data.dropna().groupby('date', group_keys=False).apply(getClusters)
 
@@ -55,3 +55,5 @@ def getdates(filtered_df):
         fixed_dates[date.strftime('%Y-%m-%d')] = filtered_df.xs(date, level=0).index.tolist()
     return fixed_dates
 
+if __name__ == "__main__":
+    dofilter(getdata())

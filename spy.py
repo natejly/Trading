@@ -17,3 +17,5 @@ def get_spy():
     symbols_list_with_hyphens = [symbol for symbol in symbols_list_with_hyphens if symbol != 'VLTO']
 
     return symbols_list_with_hyphens
+if __name__ == "__main__":
+    print(get_spy())
