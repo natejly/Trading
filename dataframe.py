@@ -4,6 +4,7 @@ import pandas as pd
 import indicators
 from statsmodels.regression.rolling import RollingOLS
 import pandas_datareader.data as web
+import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from spy import get_spy
 def getdata():
@@ -55,6 +56,7 @@ def getdata():
     validStocks = obs[obs >= 10]
     famaFrench = famaFrench[famaFrench.index.get_level_values('ticker').isin(validStocks.index)]
 
+    #54:50 check 
     betas = (famaFrench.groupby(level=1,
                                 group_keys=False)
             .apply(lambda x: RollingOLS(endog=x['return_1m'],
@@ -72,5 +74,3 @@ def getdata():
     data = data.drop('adj close',axis=1)
     return data
 
-if __name__ == "__main__":
-    print(getdata())
