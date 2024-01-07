@@ -13,6 +13,8 @@ spy = yf.download(tickers='SPY',
 spy_ret = np.log(spy[['Adj Close']]).diff().dropna().rename({'Adj Close':'S&P 500'}, axis=1)
 
 portfolio_df = portfolio_df.merge(spy_ret, left_index=True, right_index=True)
+portfolio_df['Delta'] = portfolio_df['PovertySimulator Algorithm TM pending']-portfolio_df['S&P 500']
+print(portfolio_df)
 plt.style.use('ggplot')
 
 portfolio_cum = np.exp(np.log1p(portfolio_df).cumsum())-1

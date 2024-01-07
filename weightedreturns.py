@@ -101,12 +101,18 @@ def getweights(data):
 
         except Exception as e:
             print(e)
-        if monthsago(start_date, 3):
-            print(start_date)
-            with pd.option_context('display.max_rows', None,
-                        'display.max_columns', None,
-                        'display.precision', 3,
-                        ):
-                print(weights)
+            print('uh oh not found')
+        # if monthsago(start_date, 3):
+        #     print(start_date)
+        #     with pd.option_context('display.max_rows', None,
+        #                 'display.max_columns', None,
+        #                 'display.precision', 3,
+        #                 ):
+        #         print(weights)  last 3 months
+    return weights #should be stuff to buy for this month
 if __name__ == "__main__":
-    getweights(getdata())
+    with pd.option_context('display.max_rows', None,
+                         'display.max_columns', None,
+                         'display.precision', 3,
+                         ):
+                 print(getweights(getdata()))
