@@ -101,6 +101,12 @@ def getweights(data):
 
         except Exception as e:
             print(e)
+        print(start_date)
+        with pd.option_context('display.max_rows', None,
+                    'display.max_columns', None,
+                    'display.precision', 3,
+                    ):
+            print(weights)
         # if monthsago(start_date, 3):
         #     print(start_date)
         #     with pd.option_context('display.max_rows', None,
@@ -108,11 +114,11 @@ def getweights(data):
         #                 'display.precision', 3,
         #                 ):
         #         print(weights)
-    return weights
+    #return weights
 if __name__ == "__main__":
-    with pd.option_context('display.max_rows', None,
-                         'display.max_columns', None,
-                         'display.precision', 3,
-                         ):
-                 print(getweights(getdata()))
-    
+#     with pd.option_context('display.max_rows', None,
+#                          'display.max_columns', None,
+#                          'display.precision', 3,
+#                          ):
+#                  print(getweights(getdata()))
+    getweights(getdata())
