@@ -73,6 +73,7 @@ def getweights(data):
     returns_dataframe = np.log(new_df['Adj Close']).diff()
     portfolio_df = pd.DataFrame()
     fixed_dates = getdates(dofilter(data))
+    weight_list = []
     for start_date in fixed_dates.keys():
         try: 
             end_date = (pd.to_datetime(start_date)+pd.offsets.MonthEnd(0)).strftime('%Y-%m-%d')
@@ -101,20 +102,10 @@ def getweights(data):
 
         except Exception as e:
             print(e)
-        print(start_date)
-        with pd.option_context('display.max_rows', None,
-                    'display.max_columns', None,
-                    'display.precision', 3,
-                    ):
-            print(weights)
-        # if monthsago(start_date, 3):
-        #     print(start_date)
-        #     with pd.option_context('display.max_rows', None,
-        #                 'display.max_columns', None,
-        #                 'display.precision', 3,
-        #                 ):
-        #         print(weights)
-    #return weights
+
+        if monthsago(start_date, 3):
+            weightsdf = pd.concat(weights)
+    #return weightsdf
 if __name__ == "__main__":
 #     with pd.option_context('display.max_rows', None,
 #                          'display.max_columns', None,
