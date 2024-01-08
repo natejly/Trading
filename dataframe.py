@@ -9,7 +9,8 @@ import statsmodels.api as sm
 from spy import get_spy
 def getdata():
     end_date = dt.date.today()
-    start_date = pd.to_datetime(end_date)-pd.DateOffset(365*8)
+
+    start_date = pd.to_datetime(end_date)-pd.DateOffset(365*10)
 
     df = yf.download(tickers=get_spy(),start=start_date,end=end_date).stack()
     df.index.names = ['date', 'ticker']
@@ -74,3 +75,9 @@ def getdata():
     data = data.drop('adj close',axis=1)
     return data
 
+if __name__ == "__main__":
+    with pd.option_context('display.max_rows', None,
+                         'display.max_columns', None,
+                         'display.precision', 3,
+                         ):
+                 print((getdata()))
