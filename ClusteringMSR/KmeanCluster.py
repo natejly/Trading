@@ -10,7 +10,7 @@ def getClusters(df):
     targetrsi = [30, 45, 55, 70]
     initial_centroids = np.zeros((len(targetrsi),18))
     initial_centroids[:,6] = targetrsi
-    df['cluster'] = KMeans(n_clusters = 4, random_state=0, init=initial_centroids, n_init=10).fit(df).labels_ #n_init on 10 to bypass warnings
+    df['cluster'] = KMeans(n_clusters = 4, random_state=0, init=initial_centroids, n_init=1).fit(df).labels_ #n_init on 10 to bypass warnings
     return df
 
 def plot_clusters(data):
@@ -36,7 +36,7 @@ def visualize(data):
         plot_clusters(g)
         
 def dofilter(data):
-    data = getdata()
+    
     #data = data.drop('cluster', axis = 1)
     data = data.dropna().groupby('date', group_keys=False).apply(getClusters)
 

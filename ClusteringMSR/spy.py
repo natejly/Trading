@@ -2,7 +2,6 @@
 from bs4 import BeautifulSoup as bs
 import requests
 import pandas as pd
-
 def get_spy():
     url = 'https://www.slickcharts.com/sp500'
     request = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
