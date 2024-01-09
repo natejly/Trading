@@ -4,8 +4,8 @@ from pypfopt import expected_returns
 import pandas as pd
 import yfinance as yf
 import numpy as np
-from KmeanCluster import dofilter
-from KmeanCluster import getdates
+from cluster import dofilter
+from cluster import getdates
 from dataframe import getdata
 import matplotlib.pyplot as plt
 from datetime import timedelta
@@ -58,10 +58,10 @@ def getportfolio(data):
             temp_df['weighted_return'] = temp_df['return']*temp_df['weight']
             temp_df = temp_df.groupby(level=0)['weighted_return'].sum().to_frame('PovertySimulator Algorithm TM pending')
             portfolio_df = pd.concat([portfolio_df, temp_df], axis=0)
-            # if monthsago(start_date, 3):
-            #     print(start_date)
-            #     print(weights)
-            #uhhh makes thing not load for some reason
+            if monthsago(start_date, 3):
+                print(start_date)
+                print(weights)
+
         except Exception as e:
             print(e)
     portfolio_df = portfolio_df.drop_duplicates()
@@ -69,6 +69,7 @@ def getportfolio(data):
 
 def getweights(data, date):
     stocks = data.index.get_level_values('ticker').unique().tolist()
+    print(stocks)
     new_df = yf.download(tickers=stocks, start=data.index.get_level_values('date').unique()[0]-pd.DateOffset(months=12), 
                         end=data.index.get_level_values('date').unique()[-1])
     fixed_dates = getdates(dofilter(data))

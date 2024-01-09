@@ -7,6 +7,8 @@ import pandas_datareader.data as web
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from spy import get_spy
+import numpy as np
+
 def getdata():
     end_date = dt.date.today()
 
