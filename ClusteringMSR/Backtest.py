@@ -10,7 +10,7 @@ portfolio_df = getportfolio(getdata())
 
 # Define start and end dates for the 5-year period
 end_date = dt.date.today()
-start_date = '2019-01-08'  # 5 years ago
+start_date = '2019-01-01'  # 5 years ago
 
 # Download S&P 500 data for the 5-year period
 spy = yf.download(tickers='SPY', start=start_date, end=end_date)
