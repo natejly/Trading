@@ -24,7 +24,7 @@ def get_spy():
     symbols_list = df['Symbol'].tolist()
     
     symbols_list_with_hyphens = [symbol.replace('.', '-') for symbol in symbols_list]
-    symbols_list_with_hyphens = [symbol for symbol in symbols_list_with_hyphens if symbol != 'VLTO']
+    #symbols_list_with_hyphens = [symbol for symbol in symbols_list_with_hyphens if symbol != 'VLTO']
 
     return symbols_list_with_hyphens
 

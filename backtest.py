@@ -78,27 +78,28 @@ if __name__ == "__main__":
 
     # Plotting in dollar units
     # Plotting in dollar units using a line graph
-plt.figure(figsize=(14, 7))
+    plt.figure(figsize=(14, 7))
+    plt.style.use('ggplot')
 
-# Plotting the cumulative dollar returns for the strategy as a line
-plt.plot(backtest_results_dict[sample_symbol]['cumulative_strategy_dollars'], label='Strategy Cumulative Dollar Returns', color='blue', linewidth=2)
+    # Create the line graph that looks like a histogram for the cumulative dollar returns of the strategy
+    plt.step(backtest_results_dict[sample_symbol].index, backtest_results_dict[sample_symbol]['cumulative_strategy_dollars'], label='Strategy Cumulative Dollar Returns', color='blue', where='mid', linewidth=2)
 
-# Plotting the cumulative dollar returns for the S&P 500 as a line
-plt.plot(sp500_data['cumulative_sp500_dollars'], label='S&P 500 Cumulative Dollar Returns', color='green', linewidth=2)
+    # Create the line graph that looks like a histogram for the cumulative dollar returns of the S&P 500
+    plt.step(sp500_data.index, sp500_data['cumulative_sp500_dollars'], label='S&P 500 Cumulative Dollar Returns', color='green', where='mid', linewidth=2)
 
-# Adding title and labels
-plt.title('Cumulative Dollar Returns: Strategy vs. S&P 500')
-plt.xlabel('Date Index')
-plt.ylabel('Cumulative Dollar Returns')
+    # Adding title and labels
+    plt.title('Line Graph (Histogram-like) of Cumulative Dollar Returns: Strategy vs. S&P 500')
+    plt.xlabel('Date Index')
+    plt.ylabel('Cumulative Dollar Returns')
 
-# Adding legend to distinguish the lines
-plt.legend()
+    # Adding legend to distinguish the lines
+    plt.legend()
 
-# Display grid for better readability
-plt.grid(True)
+    # Display grid for better readability
+    plt.grid(True)
 
-# Adjust layout for better visualization
-plt.tight_layout()
+    # Adjust layout for better visualization
+    plt.tight_layout()
 
-# Show the plot
-plt.show()
+    # Show the plot
+    plt.show()
